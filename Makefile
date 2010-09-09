@@ -1,18 +1,19 @@
 all: libi2cio.so i2c-ctl
 
+CC:=gcc
 PREFIX:=/usr
 
 i2c-io.o : i2c-io.c
-	$(CROSS_COMPILE)gcc $(CFLAGS) -fPIC -g -c -Wall $^
+	$(CC) $(CFLAGS) -fPIC -g -c -Wall $^
 
 libi2cio.so: i2c-io.o
-	$(CROSS_COMPILE)gcc -shared $(CFLAGS) \
+	$(CC) -shared $(CFLAGS) \
 		-Wl,-soname,$@.1 -o $@.1.0.1 $^ -lc
 	ln -s $@.1.0.1 $@
 
 # test app
 i2c-ctl: i2c-ctl.c
-	$(CROSS_COMPILE)gcc -L./ -I./ $(CFLAGS) -o $@ $^ -li2cio
+	$(CC) -L./ -I./ $(CFLAGS) -o $@ $^ -li2cio
 
 install: all
 	install -m 0755 i2c-ctl $(PREFIX)/bin/
