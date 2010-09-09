@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include "i2c.h"
+#include <i2c-io.h>
 
 void print_usage(char *name)
 {

@@ -53,6 +53,9 @@ int i2c_read(int fd, uint8_t addr, uint8_t reg, uint8_t *buf, unsigned int nb)
 	struct i2c_rdwr_ioctl_data msgset;
 	struct i2c_msg msgs[2];
 
+	if (nb < 1)
+		return 0;
+
 	msgset.nmsgs = 2;
 	msgset.msgs = msgs;
 
@@ -61,7 +64,7 @@ int i2c_read(int fd, uint8_t addr, uint8_t reg, uint8_t *buf, unsigned int nb)
 	msgs[0].buf = &reg;
 	msgs[0].len = 1;
 
-	msgs[1].addr = addr;
+	msgs[1].addr = addr | 0x01;
 	msgs[1].flags = I2C_M_RD;
 	msgs[1].buf = buf;
 	msgs[1].len = nb;
