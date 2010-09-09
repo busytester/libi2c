@@ -65,7 +65,14 @@ int main(int argc, char **argv)
 
 	if (argv[2][0] == 'r') {
 		if (sscanf(argv[5], "%u", &nb) != 1) {
-			printf("error: invalid number of bytes\n");
+			fprintf(stderr, "error: invalid number of bytes\n");
+			print_usage(argv[0]);
+			close(fd);
+			return 5;
+		}
+
+		if (nb < 1) {
+			fprintf(stderr, "error: read at least one byte\n");
 			print_usage(argv[0]);
 			close(fd);
 			return 5;
@@ -86,7 +93,7 @@ int main(int argc, char **argv)
 			return 7;
 		}
 
-		for (i = 0; i < nb; i++)
+		for (i = 1; i < nb; i++)
 			printf("%02x ", buf[i]);
 		printf("\n");
 		free(buf);
