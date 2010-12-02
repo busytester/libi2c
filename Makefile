@@ -12,7 +12,7 @@ libi2cio.so: i2c-io.o
 	ln -s $@.1.0.1 $@
 
 # test app
-i2c-ctl: i2c-ctl.c
+i2c-ctl: i2c-ctl.c libi2cio.so
 	$(CC) -L./ -I./ $(CFLAGS) -o $@ $^ -li2cio
 
 install: all
